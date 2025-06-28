@@ -12,6 +12,8 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { CartService } from './cart.service';
 import { CartDto } from './dto/cart.dto';
 import { ResponseDto } from './dto/response.dto';
+import { RemoveCartDto } from './dto/remove-cart.dto';
+
 // import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Shopping Cart')
@@ -36,13 +38,12 @@ export class CartController {
   async cartUpsert(@Body() cartDto: CartDto): Promise<ResponseDto<CartDto>> {
     return await this.cartService.cartUpsert(cartDto);
   }
-
-  @Post('RemoveCart')
-  @ApiOperation({ summary: 'Remove item from cart' })
-  @ApiResponse({ status: 200, description: 'Item removed successfully' })
-  async removeFromCart(@Body() cartDetailsId: number): Promise<ResponseDto<boolean>> {
-    return await this.cartService.removeFromCart(cartDetailsId);
-  }
+@Post('RemoveCart')
+@ApiOperation({ summary: 'Remove item from cart' })
+@ApiResponse({ status: 200, description: 'Item removed successfully' })
+async removeFromCart(@Body() removeCartDto: RemoveCartDto): Promise<ResponseDto<boolean>> {
+  return await this.cartService.removeFromCart(removeCartDto.cartDetailsId);
+}
 
   @Post('ApplyCoupon')
   @ApiOperation({ summary: 'Apply coupon to cart' })
